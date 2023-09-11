@@ -19,6 +19,7 @@ import { ref } from "vue";
           theme="dark"
           :toolbarsExclude="excludedTools"
           @onUploadImg="onUploadImg"
+          :footers="footerEditor"
         />
       </div>
       <div class="right">
@@ -207,6 +208,7 @@ export default {
     return {
       src: localStorage.getItem("markdown") || "---\rmarp: true\rtheme: codecafe\r# class: invert\rfooter: by [](https://code-cafe.nl)\r---\r\r# PRESENTATIE_TITEL\r\r---\r\r## Vragen?\r\r- E-mail mij op noah.beij@code-cafe.nl\r- Join de CodeCafé-community op Discord!\r\r![bg right 80%](https://assets.nbeij.nl/marp/assets/codecafe.png)",
       excludedTools: ["github", "fullscreen", "preview", "catalog", "pageFullscreen", "htmlPreview", "prettier", "mermaid", "task"],
+      footerEditor: ["markdownTotal"],
       htmlPresentation: "",
       downloadBtnText: "Download File",
       title: localStorage.getItem("title") || "Untitled",
@@ -566,6 +568,7 @@ z-index: 2;
   border: 1px solid #638CAA;
   background: #92cefa;
   font-size: 1.2rem;
+  cursor: pointer;
 }
 
 .btn {
@@ -575,6 +578,7 @@ z-index: 2;
   font-size: 1.2rem;
   width: fit-content;
   border-radius: .5em;
+  cursor: pointer;
 }
 .btn-help {
     padding: .5em 1em;
@@ -583,6 +587,7 @@ z-index: 2;
   font-size: 1.2rem;
   width: fit-content;
   border-radius: .5em;
+  cursor: pointer;
 }
 
 dialog {
