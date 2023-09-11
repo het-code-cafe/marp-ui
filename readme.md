@@ -21,9 +21,11 @@ A simple interface for creating and exporting Marp presentations.
 ```bash
     npm run init
 ```
+This will run the install command for both the frond and back end.
 
 ## Usage
 
 ```bash
     npm run start
 ```
+This will run the start command for both the frond and back end.
