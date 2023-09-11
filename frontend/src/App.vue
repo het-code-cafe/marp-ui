@@ -40,12 +40,15 @@ import { ref } from "vue";
         <div class="tools">
           <div>
             <label for="title">File Name: </label>
+            <div class="titleInput">
             <input
             type="text"
             id="title"
             v-model="title"
             name="title"
             placeholder="File Name">
+            <button @click="clearTitle">X</button>
+            </div>
           </div>
           <!-- button that downloads the pptx  make a fetch call to http://localhost:3001/md2pptx-->
           <div class="exportBtn">
@@ -221,6 +224,11 @@ export default {
     setSource(value) {
       this.src = value;
     },
+
+     clearTitle(){
+      this.title = "";
+    },
+
     download(){
       this.isDownloading = true;
       switch(this.selectedExtension) {
@@ -498,12 +506,29 @@ z-index: 2;
   position: relative;
 }
 
+.tools .titleInput {
+  display: inline-flex;
+  align-items: center;
+  border-bottom: 1px solid #ccc;
+
+}
+
+.tools .titleInput button {
+  background: none;
+  border: none;
+  color: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.tools .titleInput:hover button {
+  opacity: 1;
+}
 .tools input {
   background: none;
   border: none;
   color: white;
   font-size: 1rem;
-  border-bottom: 1px solid #ccc;
   padding: 0.5em;
 }
 
