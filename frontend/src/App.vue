@@ -206,7 +206,7 @@ export default {
   data() {
     return {
       src: localStorage.getItem("markdown") || "---\rmarp: true\rtheme: codecafe\r# class: invert\rfooter: by [](https://code-cafe.nl)\r---\r\r# PRESENTATIE_TITEL\r\r---\r\r## Vragen?\r\r- E-mail mij op noah.beij@code-cafe.nl\r- Join de CodeCafé-community op Discord!\r\r![bg right 80%](https://assets.nbeij.nl/marp/assets/codecafe.png)",
-      excludedTools: ["github", "fullscreen", "preview", "catalog", "pageFullscreen", "htmlPreview", "prettier", "mermaid"],
+      excludedTools: ["github", "fullscreen", "preview", "catalog", "pageFullscreen", "htmlPreview", "prettier", "mermaid", "task"],
       htmlPresentation: "",
       downloadBtnText: "Download File",
       title: localStorage.getItem("title") || "Untitled",
