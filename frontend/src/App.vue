@@ -153,6 +153,7 @@ import Spinner from "./components/spinner.vue";
         </div>
         <div class="tools">
           <div>
+            <h2>Settings</h2>
             <label for="title">File Name: </label>
             <div class="titleInput">
               <input
@@ -697,22 +698,6 @@ export default {
       });
     },
 
-    challenge() {
-      editorRef.value?.insert((selectedText) => {
-        /**
-         * @return targetValue    Content to be inserted
-         * @return select         Automatically select content
-         * @return deviationStart Start position of the selected content
-         * @return deviationEnd   End position of the selected content
-         */
-        return {
-          targetValue: `<div class="challenge">\n${selectedText}\n</div>`,
-          select: true,
-          deviationStart: 0,
-          deviationEnd: 0,
-        };
-      });
-    },
     tableGreen() {
       editorRef.value?.insert((selectedText) => {
         /**
@@ -876,9 +861,11 @@ export default {
         "markdown",
         "---\rmarp: true\rtheme: codecafe\r# class: invert\rfooter: by [](https://code-cafe.nl)\r---\r\r# PRESENTATIE_TITEL\r\r---\r\r## Vragen?\r\r- E-mail mij op noah.beij@code-cafe.nl\r- Join de CodeCafé-community op Discord!\r\r![bg right 80%](https://assets.nbeij.nl/marp/assets/codecafe.png)"
       );
+      localStorage.setItem("lastSavedTime", "Not yet Saved");
       localStorage.setItem("title", "Untitled");
       this.title = localStorage.getItem("title");
       this.src = localStorage.getItem("markdown");
+      this.lastSavedTime = localStorage.getItem("lastSavedTime");
     },
 
     model() {
