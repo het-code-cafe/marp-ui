@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #title {
+        width: 100%;
+        height: 50px;
+        border: 1px solid black;
+        margin-bottom: 10px;
+      }
+      #body {
+        width: 100%;
+        height: 500px;
+        border: 1px solid black;
+        margin-bottom: 10px;
+      }
+      #download-btn {
+        width: 100%;
+        height: 50px;
+        border: 1px solid black;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    test
+    <input type="file" name="image" id="imgFile" />
+    <button id="uploadFileBtn">Upload</button>
+    <hr />
+    <a id="imgUrl" target="blank"></a>
+    <hr />
+    <br />
+    <hr />
+    <br />
+    <label for="title">FileName:</label>
+    <input type="text" id="title" name="title" value="" />
+    <label for="body">presentation</label>
+    <textarea id="body" name="body" rows="4" cols="50"></textarea>
+    <button id="download-btn">Download File</button>
+    <button id="download-btn-md">Download markdown File</button>
+    <script>
+      const downloadBtn = document.getElementById("download-btn");
+      const downloadBtnMd = document.getElementById("download-btn-md");
+      const imgUrl = document.getElementById("imgUrl");
+      downloadBtn.addEventListener("click", () => {
+        const title = document.getElementById("title");
+        const bodyText = document.getElementById("body");
+        console.log(parseMdToJson(bodyText.value));
+        downloadBtn.innerHTML = "preparing...";
+        fetch("http://localhost:3000/md2html", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fileName: title.value,
+            // markdown: "---\rmarp: true\rtheme: codecafe\r# class: invert\rfooter: by [](https://code-cafe.nl)\r---\r\r# Replit installatie\r\r<!-- paginate: true -->\r\r---\r\r## Inhoud\r\r  - [Wat is Replit?](#wat-is-replit)\r  - [Account maken](#account-maken)\r  - [Project aanmaken](#project-aanmaken)\r  - [Project settings](#project-settings)\r  - [De Replit omgeving](#de-replit-omgeving)\r  - [Bestanden beheren](#bestanden-beheren)\r  - [De code editor](#de-code-editor)\r  - [De live preview](#de-live-preview)\r  - [Gefeliciteerd!](#gefeliciteerd)\r  - [Vragen?](#vragen)\r\r\r---\r\r## Wat is Replit?\r\r- Replit is een online programmeeromgeving voor verschillende talen.\r- Replit maakt het makkelijk om samen te werken.\r- Replit zorgt ervoor dat we minimale tijd nodig hebben om een project te beginnen.\r\r![bg right 70%](https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/New_Replit_Logo.svg/1200px-New_Replit_Logo.svg.png)\r\r---\r\r## Account maken\r\rGa naar [https://replit.com/](https://replit.com/) en maak een account aan of log in.\r\r![](assets/replit1.png)\r\r---\r\r## Project aanmaken\r\rZodra je ingelogd bent kom je in het dashboard. Vanuit hier kun je een nieuwe Replit maken.\r\rDruk op de “Create Repl” knop om een nieuwe Replit aan te maken.\r\r![bg right 80%](assets/replit2.png)\r\r---\r\r## Project settings\r\rZodra we op de “Create” knop gedrukt hebben krijgen we dit scherm te zien:\r\r- Bij template kies je welke taal of zelf framework of library je wilt gebruiken.\r- Bij Title kun je de naam van je Replit aanpassen.\r  \rDruk nu opnieuw op de “Create Repl” knop.\r\r![bg right 100%](assets/replit3.png)\r\r---\r\r## De Replit omgeving\r\rLaten we even inzoomen op de verschillende secties binnen de Replit editor. \r\rVan links naar rechts:\r- De bestandsstructuur en project instellingen.\r- De code editor.\r- Live preview van je project.\r\r![bg right 100%](assets/replit4.png)\r\r---\r\r## Bestanden beheren\r\rDe sectie links is voor onze bestanden. De eerste bestanden die hier automatisch zijn aangemaakt hangen af van de template die we gekozen hebben. Daaronder zijn de project settings en tools te vinden.\r\r- Hier kun je een nieuw bestand aanmaken.\rLET OP: je moet zelf de extensie (bijv. .html of .txt) intypen.\r- Hier kun je ook folders aanmaken om je project te organiseren.\r\r![bg right:20%](assets/replit5.png)\r\r---\r\r## De code editor\r\rDe middelste sectie is waar we onze code uitvoeren. \r- Bovenin hebben we tabbladen met onze geopende bestanden.\r\r![bg right 93%](assets/replit6.png)\r\r---\r\r## De live preview\r\rDe laatste sectie is onze output en shell/terminal.\r- Bovenin hebben we tabbladen voor de output en shell.\r- Hier kunnen we de devtools openen.\r- Hier kunnen we de output in een nieuwe browser window openen.\r\r![bg right 93%](assets/replit7.png)\r\r---\r\r## Gefeliciteerd!\r\rJe hebt nu een Replit aangemaakt en weet hoe je de Replit omgeving kunt gebruiken.\t\r\r---\r\r## Vragen?\r\r- E-mail mij op noah.beij@code-cafe.nl\r- Join de CodeCafé-community op Discord!\r\r<!-- TODO: QR genereren die niet via iemand anders' server gaat -->\r\r![bg right 80%](https://assets.nbeij.nl/marp/assets/codecafe.png)",
+            markdown: JSON.parse(parseMdToJson(bodyText.value)),
+          }),
+        })
+          .then((res) => res.blob())
+          .then((blob) => {
+            downloadBtn.innerHTML = "downloading...";
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `${title.value}.html`);
+            document.body.appendChild(link);
+            link.click();
+            downloadBtn.innerHTML = "Download File";
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      });
+
+
+      
+      downloadBtnMd.addEventListener("click", () => {
+        const title = document.getElementById("title");
+        const bodyText = document.getElementById("body");
+        console.log(parseMdToJson(bodyText.value));
+        downloadBtnMd.innerHTML = "preparing...";
+        fetch("http://localhost:3000/md", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fileName: title.value,
+            // markdown: "---\rmarp: true\rtheme: codecafe\r# class: invert\rfooter: by [](https://code-cafe.nl)\r---\r\r# Replit installatie\r\r<!-- paginate: true -->\r\r---\r\r## Inhoud\r\r  - [Wat is Replit?](#wat-is-replit)\r  - [Account maken](#account-maken)\r  - [Project aanmaken](#project-aanmaken)\r  - [Project settings](#project-settings)\r  - [De Replit omgeving](#de-replit-omgeving)\r  - [Bestanden beheren](#bestanden-beheren)\r  - [De code editor](#de-code-editor)\r  - [De live preview](#de-live-preview)\r  - [Gefeliciteerd!](#gefeliciteerd)\r  - [Vragen?](#vragen)\r\r\r---\r\r## Wat is Replit?\r\r- Replit is een online programmeeromgeving voor verschillende talen.\r- Replit maakt het makkelijk om samen te werken.\r- Replit zorgt ervoor dat we minimale tijd nodig hebben om een project te beginnen.\r\r![bg right 70%](https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/New_Replit_Logo.svg/1200px-New_Replit_Logo.svg.png)\r\r---\r\r## Account maken\r\rGa naar [https://replit.com/](https://replit.com/) en maak een account aan of log in.\r\r![](assets/replit1.png)\r\r---\r\r## Project aanmaken\r\rZodra je ingelogd bent kom je in het dashboard. Vanuit hier kun je een nieuwe Replit maken.\r\rDruk op de “Create Repl” knop om een nieuwe Replit aan te maken.\r\r![bg right 80%](assets/replit2.png)\r\r---\r\r## Project settings\r\rZodra we op de “Create” knop gedrukt hebben krijgen we dit scherm te zien:\r\r- Bij template kies je welke taal of zelf framework of library je wilt gebruiken.\r- Bij Title kun je de naam van je Replit aanpassen.\r  \rDruk nu opnieuw op de “Create Repl” knop.\r\r![bg right 100%](assets/replit3.png)\r\r---\r\r## De Replit omgeving\r\rLaten we even inzoomen op de verschillende secties binnen de Replit editor. \r\rVan links naar rechts:\r- De bestandsstructuur en project instellingen.\r- De code editor.\r- Live preview van je project.\r\r![bg right 100%](assets/replit4.png)\r\r---\r\r## Bestanden beheren\r\rDe sectie links is voor onze bestanden. De eerste bestanden die hier automatisch zijn aangemaakt hangen af van de template die we gekozen hebben. Daaronder zijn de project settings en tools te vinden.\r\r- Hier kun je een nieuw bestand aanmaken.\rLET OP: je moet zelf de extensie (bijv. .html of .txt) intypen.\r- Hier kun je ook folders aanmaken om je project te organiseren.\r\r![bg right:20%](assets/replit5.png)\r\r---\r\r## De code editor\r\rDe middelste sectie is waar we onze code uitvoeren. \r- Bovenin hebben we tabbladen met onze geopende bestanden.\r\r![bg right 93%](assets/replit6.png)\r\r---\r\r## De live preview\r\rDe laatste sectie is onze output en shell/terminal.\r- Bovenin hebben we tabbladen voor de output en shell.\r- Hier kunnen we de devtools openen.\r- Hier kunnen we de output in een nieuwe browser window openen.\r\r![bg right 93%](assets/replit7.png)\r\r---\r\r## Gefeliciteerd!\r\rJe hebt nu een Replit aangemaakt en weet hoe je de Replit omgeving kunt gebruiken.\t\r\r---\r\r## Vragen?\r\r- E-mail mij op noah.beij@code-cafe.nl\r- Join de CodeCafé-community op Discord!\r\r<!-- TODO: QR genereren die niet via iemand anders' server gaat -->\r\r![bg right 80%](https://assets.nbeij.nl/marp/assets/codecafe.png)",
+            markdown: JSON.parse(parseMdToJson(bodyText.value)),
+          }),
+        })
+          .then((res) => res.blob())
+          .then((blob) => {
+            downloadBtnMd.innerHTML = "downloading...";
+            const url = window.URL.createObjectURL(new Blob([blob]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `${title.value}.md`);
+            document.body.appendChild(link);
+            link.click();
+            downloadBtnMd.innerHTML = "Download File";
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      });
+
+      const uploadFileBtn = document.getElementById("uploadFileBtn");
+      uploadFileBtn.addEventListener("click", () => {
+        const imgFile = document.getElementById("imgFile");
+        const formData = new FormData();
+        formData.append("image", imgFile.files[0]);
+        fetch("http://localhost:8081/imgUpload", {
+          method: "POST",
+          body: formData,
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            // get the image url
+            console.log(data.url);
+            imgUrl.innerHTML = data.url;
+            imgUrl.setAttribute("href", data.url);
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      });
+
+      function parseMdToJson(md) {
+        const eol = "\r"; // or "\n" for LF
+        const markdownStringWithEol = md.replace(/\n/g, eol);
+        return JSON.stringify(markdownStringWithEol);
+      }
+    </script>
+  </body>
+</html>

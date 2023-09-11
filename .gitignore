@@ -1,0 +1,5 @@
+node_modules
+backend/node_modules
+backend/files
+backend/src/images
+frontend/node_modules
