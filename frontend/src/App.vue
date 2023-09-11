@@ -1127,7 +1127,7 @@ dialog table td {
 }
 
 .md-editor-dropdown-overlay{
-  border: .5px solid #999999;
+  border: .1px solid #1b1a1a;
   display: inline-block;
   padding: 0 4px;
   transition: all .3s;
@@ -1142,5 +1142,9 @@ dialog table td {
 .md-editor-dropdown-overlay p {
   margin: 0;
   padding: 5px 10px;
+}
+
+.md-editor-dropdown-overlay p:hover {
+  background: #1b1a1a;
 }
 </style>
