@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "init": "concurrently \"npm run install:frontend\" \"npm run install:backend\"",
     "start": "concurrently \"npm run backend\" \"npm run frontend\"",
     "backend": "node backend/src/index.js",
-    "frontend": "cd frontend && npm run dev"
+    "frontend": "cd frontend && npm run dev",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install"
   },
   "author": "",
   "license": "ISC",
