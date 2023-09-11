@@ -4,10 +4,11 @@ A simple interface for creating and exporting Marp presentations.
 
 ## Features
 
-- 🛠️ Create and edit Marp presentations
+- 🛠️ custom tools for creating and editing presentations
 - 📩 Export to PDF, PPTX, and MD
 - 💾 Save presentations to your browser
 - 🖼️ upload and crop images to your presentations
+
 
 ## pre-requisites
 
